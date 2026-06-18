@@ -1,5 +1,7 @@
 # NOTICE
 
+Copyright 2026 chengfeng / AI产品自由.
+
 This project is created and maintained by **chengfeng / AI产品自由**.
 
 Official accounts:
@@ -18,3 +20,8 @@ https://github.com/Agentchengfeng/videocut-skills
 ```
 
 Please keep this attribution when using, copying, translating, redistributing, or adapting this project.
+
+This repository is licensed under the Apache License, Version 2.0.
+When redistributing this project or derivative works, keep the LICENSE file
+and a readable copy of this NOTICE attribution, as required by Apache-2.0
+Section 4.

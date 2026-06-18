@@ -21,6 +21,15 @@ https://github.com/Agentchengfeng/videocut-skills
 
 如果你使用、转载、翻译、二次发布或改造成自己的 Skill，请保留原作者和原始仓库链接。
 
+本项目使用 **Apache License 2.0**。你可以学习、复制、修改、分发和商用，但重新分发或发布派生版本时，需要保留本仓库的 `LICENSE` 和 `NOTICE.md` 里的来源归属信息。
+
+如果你发现有人删掉来源、换名二次发布：
+
+1. 先保存证据：对方页面链接、截图、发布时间、下载包或 fork 记录。
+2. 给对方发一句话要求补回来源：请保留 `chengfeng / AI产品自由`、原始仓库链接和 `NOTICE.md`。
+3. 对方拒绝或不处理时，向平台提交版权/开源协议违规投诉，并附上本仓库链接、`LICENSE`、`NOTICE.md` 和对方删除来源的证据。
+4. GitHub 上可以开 Issue / Pull Request 要求补回；明显搬运且删来源的，可以走 GitHub DMCA 或平台侵权投诉流程。
+
 ## 为什么做这个？
 
 剪映的"智能剪口播"有两个痛点：
@@ -145,7 +154,7 @@ AI 会自动：
 ```
 videocut/
 ├── README.md           # 本文件
-├── LICENSE             # MIT 开源协议
+├── LICENSE             # Apache-2.0 开源协议
 ├── NOTICE.md           # 官方来源与转载归属声明
 ├── CITATION.cff        # GitHub 引用信息
 ├── .env.example        # API Key 模板
@@ -239,4 +248,4 @@ API
 
 ## License
 
-MIT
+Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).
