@@ -192,6 +192,14 @@ chengfeng-videocut-skills/
     └── README.md
 ```
 
+`剪口播/scripts/` 里的关键脚本：
+
+| 文件 | 作用 |
+| --- | --- |
+| `review_server.js` | 启动审核页服务；用户点击后只剪出新视频，并写入 `cut_done.json` |
+| `watch_cut_done.js` | 监听 `cut_done.json`，确认剪后视频生成且文件大小稳定 |
+| `generate_srt_for_video.sh` | 基于剪后视频重新转写，只输出 `video.raw.srt` 初稿 |
+
 不会上传的本地运行产物包括：
 
 ```text

@@ -115,18 +115,20 @@ const server = http.createServer((req, res) => {
         const newDuration = parseFloat(execSync(`ffprobe -v error -show_entries format=duration -of csv=p=0 "file:${outputPath}"`).toString().trim());
         const deletedDuration = originalDuration - newDuration;
         const savedPercent = ((deletedDuration / originalDuration) * 100).toFixed(1);
-
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({
+        const cutDone = {
           success: true,
           output: outputPath,
           originalDuration: originalDuration.toFixed(2),
           newDuration: newDuration.toFixed(2),
           deletedDuration: deletedDuration.toFixed(2),
           savedPercent: savedPercent,
-          nextStep: 'Agent 基于剪后视频重新转写，AI 校对后再写入最终 subtitles.srt。',
-          message: `剪辑完成: ${outputPath}`
-        }));
+          completedAt: new Date().toISOString(),
+          nextStep: 'Agent 基于剪后视频重新转写，AI 校对后再写入最终 subtitles.srt。'
+        };
+        fs.writeFileSync('cut_done.json', JSON.stringify(cutDone, null, 2));
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ...cutDone, message: `剪辑完成: ${outputPath}` }));
 
       } catch (err) {
         console.error('❌ 剪辑失败:', err.message);

@@ -142,7 +142,7 @@ SKILL_DIR="/Volumes/成峰/代码/剪辑Agent/.claude/skills/剪口播"
 # 输出: volcengine_result.json
 ```
 
-### 步骤 4: 生成字幕
+### 步骤 4: 生成字级时间轴
 
 ```bash
 node "$SKILL_DIR/scripts/generate_subtitles.js" volcengine_result.json
@@ -348,7 +348,7 @@ node "$SKILL_DIR/scripts/review_server.js" 8899 "$VIDEO_PATH"
 
 > ⚠️ **必须用 review_server.js**，不能用 `python3 -m http.server` 替代。
 > 原因：视频播放依赖 HTTP Range 请求（206），python 简易服务器不支持，会导致视频无法播放/无声音。
-> 启动时不要在命令末尾加 `&`（shell 后台），用 `run_in_background` 参数即可。
+> 普通用户保持这个终端窗口开着即可；Claude Code / Codex 由 Agent 使用当前环境可用的后台任务能力托管。不要要求用户安装 tmux。
 
 用户在网页中：
 - 播放视频画面确认
@@ -357,12 +357,24 @@ node "$SKILL_DIR/scripts/review_server.js" 8899 "$VIDEO_PATH"
 
 ### 步骤 8: 监听剪后视频
 
-用户点击审核页按钮后，`review_server.js` 只会剪出新视频。Agent 必须监听 `3_审核/` 目录，确认剪后视频文件真实生成且大小稳定。
+用户点击审核页按钮后，`review_server.js` 只会剪出新视频，并在审核目录写入 `cut_done.json`。Agent 必须监听这个文件，确认剪后视频真实生成且大小稳定。
 
 ```bash
-# 示例：实际文件名以 review_server.js 返回或目录内 *_cut.mp4 为准
-CUT_VIDEO="output/YYYY-MM-DD_视频名/剪口播/3_审核/视频名_cut.mp4"
+# 在另一个 Agent 任务/终端里等待用户确认后的剪辑结果
+node "$SKILL_DIR/scripts/watch_cut_done.js" "output/YYYY-MM-DD_视频名/剪口播/3_审核"
 ```
+
+监听结果会返回剪后视频路径：
+
+```json
+{
+  "output": "output/YYYY-MM-DD_视频名/剪口播/3_审核/视频名_cut.mp4",
+  "newDuration": "123.45",
+  "outputSize": 12345678
+}
+```
+
+把返回里的 `output` 记为 `CUT_VIDEO`，后续字幕必须基于这个视频重转写。
 
 不要用 `curl /api/cut` 或脚本模拟点击，除非用户明确授权。
 
