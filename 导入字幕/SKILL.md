@@ -1,6 +1,6 @@
 ---
 name: chengfeng-videocut-skills:导入字幕
-description: 视频转录 + AI校对 → 一键生成带花字的剪映草稿（默认）/ 或导出 SRT 文件。触发词：导入字幕、导出字幕、生成剪映草稿、带花字字幕、生成SRT
+description: 剪后视频字幕生成。通常由 chengfeng-videocut-skills:剪口播 在粗剪确认后继续调用，也可单独补跑 SRT / 剪映草稿。触发词：导入字幕、导出字幕、生成剪映草稿、生成SRT、补字幕
 author: chengfeng / AI产品自由
 source: https://github.com/Agentchengfeng/chengfeng-videocut-skills
 official_accounts: GitHub @Agentchengfeng；X @chengfeng240928；小红书/公众号/B站/抖音/视频号 @AI产品自由
@@ -24,6 +24,24 @@ pos: 剪辑完成后，把字幕导入剪映
 首次运行 `srt_to_draft.py` 会自动检测 capcut-mate 服务，没起就自己装+启，用户无感。
 
 **首次使用前还需配一次火山 apikey**（转录用）——在 `.claude/skills/.env` 填 `VOLCENGINE_API_KEY=xxx`，详见 [安装/SKILL.md](安装/SKILL.md)。只配一次，之后所有视频复用。
+
+## 定位
+
+主流程里，用户不需要单独理解“剪口播”和“导入字幕”是两个步骤。
+
+默认入口是：
+
+```text
+chengfeng-videocut-skills:剪口播
+```
+
+`剪口播` 在用户确认粗剪后，会继续调用本 Skill，基于剪后视频生成 SRT。
+
+本 Skill 单独触发时，主要用于：
+
+- 已经有剪后视频，只需要补字幕。
+- 已经有字幕，要推送剪映草稿。
+- 字幕识别错了，需要重新转录或校对。
 
 
 ## 开工前确认（必做）
