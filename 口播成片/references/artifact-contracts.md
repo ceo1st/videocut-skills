@@ -54,9 +54,19 @@
 - 根节点使用 `.screen`。
 - 状态由 `.step-N` 类控制。
 - 监听 `postMessage({ type: "set-step", step })`。
+- 同时支持 `postMessage({ type: "set-step", step, time })` 和 `window.__VIDEO_CURRENT_TIME__`；最终逐帧导出会反复 seek 到任意时间点，HTML 模块必须能从当前时间直接恢复到正确状态，不依赖自然播放过渡。
 - 手动检查时可以保留 HUD；最终渲染必须通过 `render-mode.js` 隐藏。
+- 最终渲染必须使用固定 `1080x1440` 画布坐标。不要在主视觉上写 `max-width: 520px`、`height: min(..., 620px)` 这类预览尺寸上限，否则放到成片里会变成“小图”。逻辑图、流程图、说明图默认使用统一主视觉区：宽约 `900px`、高约 `1040px`、水平居中，除非分镜明确要求满屏或小窗。
+- 响应式 CSS 只能服务手动预览；`?render=1` 下必须回到固定尺寸和统一安全区。HTML 模块之间的主视觉大小要一致，不能每个模块各自按内容自适应。
+- 最终逐帧导出时必须禁用 CSS transition / animation。状态变化由当前 `time` 或 `step` 决定，不要依赖 `.22s ease`、`requestAnimationFrame` 播放进度或真实时间累计。
 - 需要手绘感高亮时，用 Rough.js；如果会增加不稳定性，用 SVG 兜底。
 - Rough.js 不要每帧重画，只在 step、视口或图片尺寸变化时重画。
+
+导出前抽检：
+
+- 新增或修改 HTML 模块后，先用 final-player 在 `1080x1440` viewport 下抽该模块的关键帧，不只看单独 HTML 页面。
+- 至少检查该模块第一步、最后一步，以及它放回时间线后的实际时间点。
+- 如果 HTML 模块相对视频/截图明显偏小、偏大、偏上、偏下，先修模块坐标和 render mode，再整条导出。
 
 ## 时间线预览
 

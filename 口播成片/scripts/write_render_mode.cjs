@@ -64,6 +64,14 @@ const renderModeSource = `(() => {
       aspect-ratio: auto !important;
       margin: 0 !important;
     }
+
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0s !important;
+      animation-duration: 0s !important;
+      animation-delay: 0s !important;
+    }
   \`;
   document.head.appendChild(style);
 })();
