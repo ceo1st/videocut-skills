@@ -200,6 +200,50 @@
       background: #ece5d8;
     }
 
+    .stage-shell.video-window-mode #stage {
+      align-items: start;
+      background:
+        linear-gradient(180deg, #111719, #070809);
+      padding-top: 9%;
+    }
+
+    .recording-window {
+      width: 76%;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      border: 1px solid rgba(255, 253, 248, .34);
+      border-radius: 10px;
+      background: #101114;
+      box-shadow: 0 18px 42px rgba(0, 0, 0, .30);
+    }
+
+    .recording-window video {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      object-fit: contain;
+      background: #101114;
+    }
+
+    .stage-shell.video-window-mode::after {
+      content: "字幕安全区";
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 18px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border: 1px dashed rgba(255, 253, 248, .22);
+      border-radius: 8px;
+      color: rgba(255, 253, 248, .38);
+      font-size: 12px;
+      font-weight: 800;
+      pointer-events: none;
+      z-index: 3;
+    }
+
     #stage video,
     #stage iframe,
     #stage img {
@@ -853,14 +897,18 @@
       stage.innerHTML = "";
       stageVideo = null;
       stageFrame = null;
+      document.querySelector(".stage-shell").classList.toggle("video-window-mode", scene.kind === "video");
 
       if (scene.kind === "video") {
+        const recordingWindow = document.createElement("div");
+        recordingWindow.className = "recording-window";
         stageVideo = document.createElement("video");
         stageVideo.src = VIDEO_SRC;
         stageVideo.muted = true;
         stageVideo.playsInline = true;
         stageVideo.preload = "auto";
-        stage.appendChild(stageVideo);
+        recordingWindow.appendChild(stageVideo);
+        stage.appendChild(recordingWindow);
       } else if (scene.kind === "image") {
         const image = document.createElement("img");
         image.src = sceneUrl(scene);
