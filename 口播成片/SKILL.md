@@ -275,6 +275,8 @@ node ~/.claude/skills/chengfeng-videocut-skills/口播成片/scripts/write_rende
 3. 确认 `export_final_video.cjs` 的 `viewport` 是逻辑画布尺寸，`dpr` 才是高清倍数。
 4. 用 final-player 在实际导出 viewport 下抽该模块的关键帧，必要时用 `getBoundingClientRect()` 对比主视觉容器尺寸。
 
+竖屏里处理横向小黑 SVG / 16:9 SVG 模块时，禁止用 `.wrap { transform: scale(...) }` 这类整体放大来解决“小横条”问题。整体缩放会在 3:4 画布里裁掉左右边缘，尤其是左右分布的模型卡、箭头、说明标签。要么重排成竖屏构图，要么保持完整安全区；改完必须抽该模块的左右边界帧检查，不能只看中心关键帧。
+
 导出最终视频：
 
 ```bash
